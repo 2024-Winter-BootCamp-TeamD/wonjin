@@ -8,65 +8,70 @@ import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 
+// [추가] DonutChart 컴포넌트 import
+import DonutChart from './DonutChat.js';
+
 function App() {
 
   let [shoes] = useState(data);
   let navigate = useNavigate();
 
-  
   return (
     <div className='App'>
-      
-
 
       <Navbar data-bs-theme="dark" className='d_navbar'>
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link onClick={()=>{ navigate('-1')}}>Features</Nav.Link>
-            <Nav.Link onClick={()=>{ navigate('/detail')}}>Pricing</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
+            {/* [추가] 도넛 차트 페이지 링크 */}
+            <Nav.Link onClick={() => { navigate('/chart') }}>Donut Chart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
 
       <Routes>
-      <Route path="/" element = {
-        <>
-        <div className='main-bg' style={{backgroundImage: 'url(' + bg +')'}}></div>
-        <br />
-        <Container>
-        <Row>
-        <Card shoes={shoes[0]} i={1} />
-        <Card shoes={shoes[1]} i={2} />
-        <Card shoes={shoes[2]} i={3} />
-        </Row>
-      </Container>
-      </>
-      }/>
-        <Route path="/detail/:id" element = {<Detail  shoes = {shoes}/>}/>
+        <Route
+          path="/"
+          element={
+            <>
+              <div className='main-bg' style={{ backgroundImage: 'url(' + bg + ')' }}></div>
+              <br />
+              <Container>
+                <Row>
+                  <Card shoes={shoes[0]} i={1} />
+                  <Card shoes={shoes[1]} i={2} />
+                  <Card shoes={shoes[2]} i={3} />
+                </Row>
+              </Container>
+            </>
+          }
+        />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
 
-
-
-
-        <Route path="/about" element = {<About/>}>
-         <Route path="member" element = {<div>멤버임</div>} />
-         <Route path="location" element = {<Detail/>} />
+        {/* About */}
+        <Route path="/about" element={<About />}>
+          <Route path="member" element={<div>멤버임</div>} />
+          <Route path="location" element={<Detail />} />
         </Route>
 
-        <Route path= "/event" element = {<Event />}>
-          <Route path= "one" element = {<div>첫 주문시 양배추즙 서비스</div>}/>
-          <Route path= "two" element =   {<div>생일 기념 쿠폰받기</div>}/>        
+        {/* Event */}
+        <Route path="/event" element={<Event />}>
+          <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
+          <Route path="two" element={<div>생일 기념 쿠폰받기</div>} />
         </Route>
-        
+
+        {/* [추가] /chart 경로에서 DonutChart 표시 */}
+        <Route path="/chart" element={<DonutChart />} />
       </Routes>
 
     </div>
   );
 }
 
-function About(){
-  return(
+function About() {
+  return (
     <div>
       <h4>회사정보임</h4>
       <Outlet></Outlet>
@@ -74,25 +79,23 @@ function About(){
   )
 }
 
-function Card(props){
+function Card(props) {
   return (
     <div className="col-md-4">
-      <img src={"https://codingapple1.github.io/shop/shoes" + props.i + '.jpg'} width="80%" />
-      <h4>{ props.shoes.title }</h4>
-      <p>{ props.shoes.price }</p>
+      <img src={"https://codingapple1.github.io/shop/shoes" + props.i + '.jpg'} width="80%" alt="shoes" />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
     </div>
   )
 }
 
-function Event(){
-  return(
-  <div>
-    <h4>오늘의 이벤트</h4>
-    <Outlet></Outlet>
-  </div>
+function Event() {
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
+    </div>
   )
 }
-
-
 
 export default App;
