@@ -7,13 +7,14 @@ import { useState } from 'react';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 // [추가] DonutChart 컴포넌트 import
 import DonutChart from './DonutChat.js';
 
 function App() {
 
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -25,7 +26,6 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
-            {/* [추가] 도넛 차트 페이지 링크 */}
             <Nav.Link onClick={() => { navigate('/chart') }}>Donut Chart</Nav.Link>
           </Nav>
         </Container>
@@ -40,10 +40,23 @@ function App() {
               <br />
               <Container>
                 <Row>
-                  <Card shoes={shoes[0]} i={1} />
-                  <Card shoes={shoes[1]} i={2} />
-                  <Card shoes={shoes[2]} i={3} />
+                  {shoes.map((a,i)=>{
+                    return <Card shoes = {shoes[i]} i = {i} key = {i}></Card>
+                  })}
                 </Row>
+                <button onClick={()=>{
+                  
+                  axios.get('https://codingapple1.github.io/shop/data2.json')
+                  .then((결과)=>{
+                    console.log(결과.data);
+                    let copy = [...shoes, ...결과.data];
+                    setShoes(copy);
+                  })
+
+                  axios.post('/sadfas', {name: 'kim'})
+
+
+                }}> 더보기 </button>
               </Container>
             </>
           }
