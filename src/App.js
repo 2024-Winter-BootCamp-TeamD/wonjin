@@ -3,18 +3,23 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import bg from './img/bg.png'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
-
-// [추가] DonutChart 컴포넌트 import
 import DonutChart from './DonutChat.js';
+import Cart from './routes/Cart.js'
+
+
+export let Context1 = createContext();
+
 
 function App() {
 
   let [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
+
   let navigate = useNavigate();
 
   return (
@@ -61,7 +66,11 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{ 재고 }}>
+          <Detail shoes={shoes} />
+          </Context1.Provider>
+          } />
 
         {/* About */}
         <Route path="/about" element={<About />}>
@@ -77,7 +86,13 @@ function App() {
 
         {/* [추가] /chart 경로에서 DonutChart 표시 */}
         <Route path="/chart" element={<DonutChart />} />
+
+        <Route path="/cart" element = { <Cart />}/>
+
+
       </Routes>
+
+      
 
     </div>
   );

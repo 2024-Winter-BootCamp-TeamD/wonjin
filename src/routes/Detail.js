@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nav from 'react-bootstrap/Nav'
 import { Tab } from "react-bootstrap";
+import {Context1} from "./../App.js"
 
 function Deatil(props){
 
 
+  let {재고} = useContext(Context1)
 
   let [count, setCount] = useState(0)
   let [alert, setalert] = useState(true);
@@ -17,14 +19,16 @@ function Deatil(props){
     return x.id == id
   });
 
-  
+
   useEffect(()=>{
     setTimeout(()=>{ setalert(false) }, 2000)
   })
     return(
         <div className="container">
           {count}
+          {재고}
           <button onClick={()=>{setCount(count+1)}}>버튼</button>
+
   <div className="row">
     <div className="col-md-6">
       <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
