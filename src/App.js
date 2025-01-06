@@ -17,6 +17,11 @@ export let Context1 = createContext();
 
 function App() {
 
+  let obj = {name : 'kim'}
+  localStorage.setItem('data', JSON.stringify(obj))
+  let 꺼낸거 = localStorage.getItem('data')
+  console.log(꺼낸거)
+
   let [shoes, setShoes] = useState(data);
   let [재고] = useState([10, 11, 12]);
 

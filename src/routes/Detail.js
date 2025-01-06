@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Nav from 'react-bootstrap/Nav'
 import { Tab } from "react-bootstrap";
 import {Context1} from "./../App.js"
+import { addItem } from "../store.js";
+import { useDispatch } from "react-redux";
 
 function Deatil(props){
 
@@ -12,7 +14,7 @@ function Deatil(props){
   let [count, setCount] = useState(0)
   let [alert, setalert] = useState(true);
   let [탭, 탭변경] = useState(0);
-
+  let dispatch = useDispatch()
 
   let {id} = useParams();
   let 찾은상품 = props.shoes.find(function(x){
@@ -37,7 +39,11 @@ function Deatil(props){
       <h4 className="pt-5">{찾은상품.title}</h4>
       <p>{찾은상품.content}</p>
       <p>{찾은상품.price}</p>
-      <button className="btn btn-danger">주문하기</button> 
+      <button className="btn btn-danger" onClick={()=>{
+        dispatch(addItem({
+          id : 1, name : 'Red Knit', count : 1
+        }))
+      }}>주문하기</button> 
     </div>
   </div>
   <Nav variant="tabs"  defaultActiveKey="link0">
